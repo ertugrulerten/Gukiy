@@ -13,6 +13,25 @@ Bu skill, Gukiy'nin "Güven ve Mühür" odaklı görsel dilini **React/Next.js +
 - **Accent 2 (Aldıklarım):** `text-[#FFB300]` / `border-[#FFB300]/30` (Amber)
 - **Glass Base:** `bg-white/5` (Beyaz yerine çok hafif saydam katman)
 
+## 🔡 Tipografi ve Hiyerarşi
+Gukiy'nin ciddi ve güvenilir havasını yansıtmak için şu kurallar uygulanmalıdır:
+
+- **Font Ailesi:** Ana yazı tipi olarak `Inter` veya `Montserrat` (Sans-serif) kullanılmalıdır.
+- **Rakamlar ve Miktarlar:** Borç/Alacak miktarları için daha teknik ve hizalı duran `JetBrains Mono` veya `Roboto Mono` tercih edilmelidir.
+- **Hiyerarşi:**
+  - **Ana Başlıklar (H1):** `text-2xl font-bold tracking-tight text-white`
+  - **İşlem Başlıkları:** `text-lg font-semibold text-white/90`
+  - **Alt Metinler/Tarihler:** `text-sm font-medium text-white/50`
+  - **Miktarlar (Glow):** `text-xl font-mono font-bold` (Cyan veya Amber renklerinde)
+
+  ## 📐 Grid ve Spacing (Yerleşim)
+Gukiy "Vault" arayüzü sıkışık olmamalı, her öğe mühür kalitesinde sunulmalıdır.
+
+- **Grid Sistemi:** Tailwind'in 8px (2rem) katları üzerine kurulu bir yapı kullanılmalıdır (`gap-4`, `p-8` vb.).
+- **Konteyner Boşlukları:** Ana ekran kenar boşlukları mobilde `px-4`, masaüstünde `px-8` olmalıdır.
+- **Kart Araları:** İşlem kartları arasında her zaman `space-y-4` (dikey) boşluk bulunmalıdır.
+- **Padding (İç Boşluk):** Kart içindeki metinler kenarlara yapışmamalı, en az `p-5` veya `p-6` kullanılmalıdır.
+
 ## 🛠 Tasarım İlkeleri (Gukiy Standartları)
 
 ### A) Cam Katman (Vault Surface)
