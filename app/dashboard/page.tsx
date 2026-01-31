@@ -1,178 +1,146 @@
 'use client'
-
 import React, { useState } from 'react';
 import { 
-  ArrowUpRight, 
-  ArrowDownLeft, 
-  Zap, 
-  ShieldAlert, 
-  Calendar, 
-  X, 
-  CheckCircle2,
-  Clock
+  ArrowUpRight, ArrowDownLeft, Filter, 
+  LayoutList, LayoutGrid, ChevronDown, 
+  Laptop, Camera, Watch, Guitar, Tablet 
 } from 'lucide-react';
+import NewTransactionSheet from './NewTransactionSheet';
 
-export default function DashboardPage() {
-  // State Yönetimi
-  const [isLaunchOpen, setIsLaunchOpen] = useState(false);
-  const [isSealing, setIsSealing] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [boomerangs, setBoomerangs] = useState<any[]>([]);
-
-  // Fırlatma Fonksiyonu
-  const handleLaunch = () => {
-    setIsSealing(true);
+// --- TRANSACTION CARD (ZAMAN ÇUBUĞU & ÇİFT SATIR ZAMAN) ---
+const TransactionCard = ({ mode, type, item }: { mode: string, type: 'inbound' | 'outbound', item: any }) => (
+  <div className="relative bg-surface border border-border-subtle/30 rounded-xl transition-all duration-300 shadow-sm mb-3 overflow-hidden">
     
-    // 1.5 saniye mühürleme simülasyonu
-    setTimeout(() => {
-      setIsSealing(false);
-      setShowSuccess(true);
-      
-      // Listeye yeni bumerangı ekle
-      const newBoomerang = {
-        id: Date.now(),
-        subject: "Acil Kira Desteği",
-        amount: "5.000 TL",
-        status: "Active",
-        timeLeft: "30 Gün"
-      };
-      
-      setBoomerangs([newBoomerang, ...boomerangs]);
-
-      // 2 saniye sonra başarı ekranını kapat ve paneli gizle
-      setTimeout(() => {
-        setShowSuccess(false);
-        setIsLaunchOpen(false);
-      }, 2000);
-    }, 1500);
-  };
-
-  return (
-    <div className="space-y-8 relative">
-      {/* GÜVEN SKORU KARTI */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#00E5FF]/10 to-transparent border border-[#00E5FF]/20 rounded-[32px] p-8 shadow-[0_0_40px_rgba(0,229,255,0.05)]">
-        <p className="text-[#00E5FF]/60 text-[10px] tracking-[0.3em] uppercase mb-2">Trust Integrity Score</p>
-        <div className="flex items-end space-x-2">
-          <h2 className="text-6xl font-extralight tracking-tighter text-white">982</h2>
-          <span className="text-[#00E5FF] text-sm mb-2 font-bold opacity-80">+12</span>
-        </div>
-        <div className="absolute -right-10 -top-10 w-48 h-48 bg-[#00E5FF]/5 rounded-full blur-[60px]" />
-      </div>
-
-      {/* AKSİYON BUTONLARI */}
-      <div className="grid grid-cols-2 gap-4">
-        <button 
-          onClick={() => setIsLaunchOpen(true)}
-          className="group bg-white/[0.02] border border-white/5 rounded-[24px] p-6 flex flex-col items-center space-y-3 hover:border-[#00E5FF]/30 transition-all active:scale-95"
-        >
-          <div className="p-3 bg-[#00E5FF]/10 rounded-full text-[#00E5FF] group-hover:bg-[#00E5FF] group-hover:text-[#05070A] transition-all">
-            <ArrowUpRight size={24} />
+    <div className={`p-[10px] ${mode === 'genis' ? 'pb-4' : 'pb-3'}`}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          {/* İkon Kutusu */}
+          <div className={`w-12 h-12 bg-main rounded-lg border border-border-subtle/20 flex items-center justify-center shrink-0
+            ${type === 'inbound' ? 'text-accent' : 'text-secondary opacity-50'}`}>
+            {item.icon}
           </div>
-          <span className="text-[10px] tracking-[0.2em] text-gray-400 uppercase font-bold">Bumerang Fırlat</span>
-        </button>
-        
-        <button className="group bg-white/[0.02] border border-white/5 rounded-[24px] p-6 flex flex-col items-center space-y-3 hover:border-red-500/30 transition-all active:scale-95 text-left">
-          <div className="p-3 bg-red-500/10 rounded-full text-red-500 group-hover:bg-red-500 group-hover:text-white transition-all">
-            <ArrowDownLeft size={24} />
-          </div>
-          <span className="text-[10px] tracking-[0.2em] text-gray-400 uppercase font-bold text-center">Kabul Bekleyen</span>
-        </button>
-      </div>
-
-      {/* LİSTE BAŞLIĞI VE DİNAMİK LİSTE */}
-      <div className="pt-4">
-        <h3 className="text-[10px] tracking-[0.4em] text-gray-600 uppercase mb-6 px-2">Mühürlenmiş Aktif İşlemler</h3>
-        <div className="space-y-4">
-          {boomerangs.length === 0 ? (
-            <div className="bg-white/[0.01] border border-white/5 rounded-3xl p-6 flex items-center justify-center opacity-50">
-              <p className="text-xs text-gray-500 tracking-widest uppercase">Şu an aktif bumerang bulunmuyor...</p>
-            </div>
-          ) : (
-            boomerangs.map((item) => (
-              <div key={item.id} className="bg-white/[0.03] border border-[#00E5FF]/20 rounded-2xl p-5 flex items-center justify-between animate-in fade-in zoom-in duration-500">
-                <div className="flex items-center space-x-4">
-                  <div className="p-2 bg-[#00E5FF]/10 rounded-lg text-[#00E5FF]">
-                    <Zap size={18} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-white">{item.subject}</p>
-                    <p className="text-[10px] text-gray-500 uppercase tracking-tighter">{item.amount}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="flex items-center justify-end space-x-1 text-[#00E5FF]">
-                    <Clock size={12} />
-                    <span className="text-xs font-bold">{item.timeLeft}</span>
-                  </div>
-                  <p className="text-[9px] text-gray-500 uppercase tracking-tighter">Geri Dönüşe Kalan</p>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {/* FIRLATMA PANELİ (DRAWER) */}
-      {isLaunchOpen && (
-        <div className="fixed inset-0 z-[100] flex items-end justify-center">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => !isSealing && setIsLaunchOpen(false)} />
           
-          <div className="relative w-full max-w-lg bg-[#0B0F1A] border-t border-[#00E5FF]/20 rounded-t-[40px] p-10 shadow-[0_-20px_80px_rgba(0,229,255,0.1)] animate-in slide-in-from-bottom duration-500 ease-out">
-            <div className="w-12 h-1 bg-white/10 rounded-full mx-auto mb-10" />
-            
-            {showSuccess ? (
-              <div className="py-12 flex flex-col items-center justify-center space-y-6 animate-in zoom-in duration-300">
-                <div className="w-20 h-20 bg-[#00E5FF]/20 rounded-full flex items-center justify-center border border-[#00E5FF]/40 shadow-[0_0_40px_rgba(0,229,255,0.2)]">
-                  <CheckCircle2 size={40} className="text-[#00E5FF]" />
-                </div>
-                <div className="text-center">
-                  <h3 className="text-[#00E5FF] font-bold tracking-[0.4em] uppercase text-sm">Mühür Basıldı</h3>
-                  <p className="text-gray-500 text-[10px] mt-2 tracking-widest uppercase">Bumerang Kaydedildi</p>
-                </div>
-              </div>
-            ) : (
-              <>
-                <div className="flex justify-between items-start mb-8">
-                  <h2 className="text-xl font-light tracking-[0.4em] text-white uppercase">Vault Request</h2>
-                  {!isSealing && <button onClick={() => setIsLaunchOpen(false)} className="text-gray-500 hover:text-white"><X size={20}/></button>}
-                </div>
-                
-                <div className="space-y-8">
-                  <div className="space-y-4">
-                    <input type="number" placeholder="0.00 TL" className="w-full bg-transparent border-b border-white/10 py-4 text-3xl font-light text-[#00E5FF] focus:outline-none focus:border-[#00E5FF] transition-all placeholder:text-gray-800" />
-                    <input type="text" placeholder="Bumerang Konusu" className="w-full bg-transparent border-b border-white/10 py-2 text-sm text-white focus:outline-none focus:border-[#00E5FF] transition-all placeholder:text-gray-700" />
-                  </div>
+          <div className="flex flex-col">
+            <h4 className="text-[14px] font-black text-primary italic leading-tight uppercase tracking-tight">{item.title}</h4>
+            <p className="text-[10px] text-secondary font-bold opacity-60 uppercase">
+              {type === 'inbound' ? `Gönderen: ${item.user}` : `Alıcı: ${item.user}`}
+            </p>
+          </div>
+        </div>
 
-                  <div className="grid grid-cols-2 gap-6 pt-4">
-                    <div className="space-y-1">
-                      <p className="text-[9px] text-gray-500 uppercase tracking-widest">Min. Kayıt Yılı</p>
-                      <select className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-xs text-white outline-none appearance-none">
-                        <option className="bg-[#0B0F1A]">2020 & Öncesi</option>
-                        <option className="bg-[#0B0F1A]">2022 & Öncesi</option>
-                      </select>
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-[9px] text-gray-500 uppercase tracking-widest">Risk Seviyesi</p>
-                      <div className="flex bg-white/5 border border-white/10 rounded-xl p-1">
-                        <button className="flex-1 text-[9px] py-2 rounded-lg bg-[#00E5FF] text-[#05070A] font-bold">LOW</button>
-                        <button className="flex-1 text-[9px] py-2 text-gray-500">MID</button>
-                      </div>
-                    </div>
-                  </div>
+        {/* SAĞ TARAF: Çift Satır Zaman (İkonsuz) */}
+        <div className="flex flex-col items-end leading-none text-right">
+          <span className="text-[11px] font-black text-primary italic uppercase">{item.days} Gün</span>
+          <span className="text-[9px] font-bold text-secondary italic opacity-60 uppercase mt-0.5">{item.hours} Saat</span>
+        </div>
+      </div>
 
-                  <button 
-                    onClick={handleLaunch}
-                    disabled={isSealing}
-                    className="w-full bg-[#00E5FF] text-[#05070A] font-bold py-5 rounded-[20px] tracking-[0.5em] uppercase text-[10px] shadow-[0_10px_30px_rgba(0,229,255,0.2)] hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
-                  >
-                    {isSealing ? 'MÜHÜRLENİYOR...' : 'MÜHÜRLE VE FIRLAT'}
-                  </button>
-                </div>
-              </>
-            )}
+      {mode === 'genis' && (
+        <div className="mt-3 pt-3 border-t border-border-subtle/10">
+          <div className="flex justify-between items-start">
+            <p className="text-[10px] text-secondary font-medium leading-tight max-w-[65%] italic">
+              "{item.desc}"
+            </p>
+            <div className="text-right">
+              <span className="text-[8px] font-black text-secondary uppercase opacity-40 block leading-none mb-1">Beyan Değeri</span>
+              <span className="text-sm font-black text-primary italic tracking-tighter">{item.value}</span>
+            </div>
           </div>
         </div>
       )}
+    </div>
+
+    {/* ZAMAN STATÜ ÇUBUĞU (Kalan zamanın % kaçı tükendi?) */}
+    <div className="absolute bottom-0 left-0 w-full h-[3px] bg-border-subtle/10">
+      <div 
+        className="h-full bg-accent transition-all duration-1000" 
+        style={{ width: `${item.progress}%` }} 
+      />
+    </div>
+  </div>
+);
+
+export default function DashboardPage() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('aktif');
+  const [viewMode, setViewMode] = useState('genis');
+  const [isAldiklarimOpen, setIsAldiklarimOpen] = useState(true);
+  const [isVerdiklerimOpen, setIsVerdiklerimOpen] = useState(true);
+
+  // 5 Farklı Emanet Senaryosu (Zaman ve Progress eklendi)
+  const aldiklarimData = [
+    { title: "MacBook Pro M3", user: "Caner U.", days: "05", hours: "14", progress: 65, value: "85.000 TL", desc: "Kılıfı ve şarj aletiyle teslim alındı.", icon: <Laptop size={22} strokeWidth={2.5} /> },
+    { title: "Sony A7 IV Lens", user: "Zeynep T.", days: "02", hours: "08", progress: 85, value: "45.000 TL", desc: "Çizik kontrolü yapıldı, temiz.", icon: <Camera size={22} strokeWidth={2.5} /> }
+  ];
+
+  const verdiklerimData = [
+    { title: "Rolex Submariner", user: "Murat Y.", days: "14", hours: "12", progress: 20, value: "420.000 TL", desc: "Sertifikası bende kaldı.", icon: <Watch size={22} strokeWidth={2.5} /> },
+    { title: "Fender Strat", user: "Emre B.", days: "07", hours: "22", progress: 40, value: "65.000 TL", desc: "Hardcase ile teslim edildi.", icon: <Guitar size={22} strokeWidth={2.5} /> },
+    { title: "iPad Pro 12.9", user: "Selin A.", days: "10", hours: "05", progress: 55, value: "38.000 TL", desc: "Pencil ile birlikte verildi.", icon: <Tablet size={22} strokeWidth={2.5} /> }
+  ];
+
+  return (
+    <div className="px-5 pb-24 pt-6 max-w-md mx-auto min-h-screen bg-main font-sans">
+      
+      {/* 1. KAPTAN KÖŞKÜ (Başlık & Kontroller) */}
+      <div className="flex items-center justify-between mb-8 px-1">
+        <h1 className="text-2xl font-black text-primary tracking-tighter italic uppercase">Dashboard</h1>
+        <div className="flex items-center space-x-2">
+          <div className="flex bg-surface border border-border-subtle/30 rounded-lg p-0.5 shadow-sm">
+            <button onClick={() => setViewMode('dar')} className={`p-1.5 rounded-md transition-all ${viewMode === 'dar' ? 'bg-main shadow-sm' : 'opacity-30'}`}><LayoutList size={14} /></button>
+            <button onClick={() => setViewMode('genis')} className={`p-1.5 rounded-md transition-all ${viewMode === 'genis' ? 'bg-main shadow-sm' : 'opacity-30'}`}><LayoutGrid size={14} /></button>
+          </div>
+          <button className="p-2 bg-surface border border-border-subtle/30 rounded-lg text-secondary shadow-sm active:scale-95"><Filter size={14} /></button>
+        </div>
+      </div>
+
+      {/* 2. SEKMELER */}
+      <div className="mb-8 border-none">
+        <div className="flex space-x-8 px-1 items-end h-8">
+          {['aktif', 'tamamlanmis'].map((tab) => (
+            <button 
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`relative pb-2 text-sm uppercase tracking-widest transition-all
+                ${activeTab === tab ? 'text-primary font-black' : 'text-secondary opacity-40 font-bold'}`}
+            >
+              {tab === 'aktif' ? 'Aktifler' : 'Tamamlanmışlar'}
+              {activeTab === tab && (
+                <div className="absolute bottom-0 left-0 w-full h-[3px] bg-accent rounded-full" />
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. BÖLÜMLER */}
+      <div className="space-y-10">
+        <section>
+          <button onClick={() => setIsAldiklarimOpen(!isAldiklarimOpen)} className="flex items-baseline space-x-2 mb-4 px-1 group">
+            <ChevronDown size={20} className={`text-accent transition-transform self-center ${isAldiklarimOpen ? '' : '-rotate-90'}`} />
+            <h2 className="text-xl font-black text-primary italic uppercase tracking-tighter">Aldıklarım</h2>
+            {/* Sayı: Aynı boyut, daha ince font */}
+            <span className="text-xl font-light text-secondary opacity-40 tracking-tighter italic">({aldiklarimData.length})</span>
+          </button>
+          {isAldiklarimOpen && aldiklarimData.map((item, i) => <TransactionCard key={i} mode={viewMode} type="inbound" item={item} />)}
+        </section>
+
+        <section>
+          <button onClick={() => setIsVerdiklerimOpen(!isVerdiklerimOpen)} className="flex items-baseline space-x-2 mb-4 px-1 group">
+            <ChevronDown size={20} className={`text-secondary transition-transform self-center ${isVerdiklerimOpen ? '' : '-rotate-90'}`} />
+            <h2 className="text-xl font-black text-primary italic uppercase tracking-tighter">Verdiklerim</h2>
+            <span className="text-xl font-light text-secondary opacity-40 tracking-tighter italic">({verdiklerimData.length})</span>
+          </button>
+          {isVerdiklerimOpen && verdiklerimData.map((item, i) => <TransactionCard key={i} mode={viewMode} type="outbound" item={item} />)}
+        </section>
+      </div>
+
+      {/* FAB */}
+      <button onClick={() => setIsOpen(true)} className="fixed bottom-6 right-6 w-14 h-14 bg-accent text-main rounded-xl flex items-center justify-center shadow-lg z-50 border border-border-subtle/30 active:scale-95 transition-all">
+        <ArrowUpRight size={28} strokeWidth={3} />
+      </button>
+
+      <NewTransactionSheet isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>
   );
 }

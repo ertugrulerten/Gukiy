@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* RENKLER (Sabitlendi) */
+  --bg-main: 185, 185, 185;
+  --bg-surface: 210, 210, 210;
+  --border-subtle: 160, 160, 160; /* Daha yumuşak bir sınır */
+  --text-primary: 25, 25, 25;
+  --accent: 0, 0, 0;
+
+  /* Renkler aynı kalıyor */
+  --tab-indicator: 0, 0, 0; /* Aktif sekme altı çizgi rengi */
+  
+  /* Sıkılaştırılmış Boşluklar */
+  --spacing-card-tight: 10px; /* Dar görünüm için %40 azaltılmış iç boşluk */
+  --radius-icon: var(--radius-lg); /* Filtre ikonuyla aynı radüs */
+  /* PROFESYONEL GEOMETRİ */
+  --radius-card: 18px;
+  --radius-button: 10px;
+  --radius-inner: 6px;
+  
+  /* GÖLGELER (Derinlik hissi için) */
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+body {
+  background-color: rgb(var(--bg-main));
+  color: rgb(var(--text-primary));
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}

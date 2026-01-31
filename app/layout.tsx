@@ -1,5 +1,8 @@
-import './globals.css' // BU SATIR HAYATİ ÖNEMDE!
-import { Square, User, Shield, ChevronDown } from 'lucide-react';
+import './globals.css'
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'] })
+
 export default function RootLayout({
   children,
 }: {
@@ -7,7 +10,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="tr">
-      <body className="bg-[#05070A]">{children}</body>
+      {/* bg-main sınıfı globals.css'deki 180 gri tonunu çeker */}
+      <body className={`${inter.className} bg-main antialiased`}>
+        {children}
+      </body>
     </html>
   )
 }
