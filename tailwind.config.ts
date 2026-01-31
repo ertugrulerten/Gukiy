@@ -18,6 +18,7 @@ const config: Config = {
         accent: "rgb(var(--accent))",
       },
       borderRadius: {
+        // globals.css'deki isimlerle birebir aynı olmalı
         'xl': 'var(--radius-xl)',
         'lg': 'var(--radius-lg)',
         'md': 'var(--radius-md)',
